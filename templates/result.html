@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Exam Result | Online Exam Proctoring</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #F8FAFC;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .result-container {
+            width: 100%;
+            max-width: 520px;
+            background: #FFFFFF;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            color: #0F172A;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #E5E7EB;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            font-weight: 500;
+        }
+
+        .value {
+            font-weight: 600;
+        }
+
+        .status {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .pass {
+            color: #16A34A;
+        }
+
+        .fail {
+            color: #DC2626;
+        }
+
+        .pending {
+            color: #F59E0B;
+        }
+
+        .action {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .action a {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #4F46E5;
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .note {
+            margin-top: 15px;
+            font-size: 13px;
+            color: #64748B;
+            text-align: center;
+        }
+
+        .logout {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .logout a {
+            font-size: 14px;
+            color: #4F46E5;
+            text-decoration: none;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="result-container">
+    <h2>My Exam Result</h2>
+
+    {% if data %}
+
+        <div class="result-row">
+            <span class="label">Answer Submitted</span>
+            <span class="value">{{ data.answer_q1 }}</span>
+        </div>
+
+        <div class="result-row">
+            <span class="label">Cheating Count</span>
+            <span class="value">{{ data.cheating_count }}</span>
+        </div>
+
+        <div class="status">
+            {% if data.result == 'Pass' %}
+                <span class="pass">PASS</span>
+            {% elif data.result == 'Fail' %}
+                <span class="fail">FAIL</span>
+            {% else %}
+                <span class="pending">Pending Evaluation</span>
+            {% endif %}
+        </div>
+
+        {% if data.result == 'Fail' %}
+            <div class="action">
+                {% if data.reexam_request == 'No' %}
+                    <a href="{{ url_for('apply_reexam') }}">Apply for Re-Exam</a>
+                {% else %}
+                    <p class="note">Re-exam request submitted.</p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+    {% else %}
+        <p class="note">You have not attempted the exam yet.</p>
+    {% endif %}
+
+    <div class="logout">
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+</div>
+
+</body>
+</html>

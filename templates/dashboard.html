@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard | Online Exam Proctoring</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #F8FAFC;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dashboard {
+            width: 100%;
+            max-width: 900px;
+            background: #FFFFFF;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 26px;
+            color: #0F172A;
+        }
+
+        .logout {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: #4F46E5;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #F9FAFB;
+            border-radius: 16px;
+            padding: 25px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h3 {
+            margin: 0 0 10px;
+            font-size: 18px;
+            color: #0F172A;
+        }
+
+        .card p {
+            margin: 0 0 20px;
+            font-size: 14px;
+            color: #64748B;
+        }
+
+        .card a {
+            display: inline-block;
+            padding: 10px 16px;
+            background: #4F46E5;
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .card a.secondary {
+            background: #E0E7FF;
+            color: #4F46E5;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 13px;
+            color: #94A3B8;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <div class="header">
+        <h2>Welcome to Exam Dashboard</h2>
+        <a href="/logout" class="logout">Logout</a>
+    </div>
+
+    <div class="cards">
+        <div class="card">
+            <h3>Start Exam</h3>
+            <p>Begin your scheduled online examination securely.</p>
+            <a href="/exam">Start Exam</a>
+        </div>
+
+        <div class="card">
+            <h3>View Results</h3>
+            <p>Check your past exam scores and performance.</p>
+            <a href="{{ url_for('student_result') }}" class="secondary">View Result</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        Online Exam Proctoring System
+    </div>
+
+</div>
+
+</body>
+</html>
