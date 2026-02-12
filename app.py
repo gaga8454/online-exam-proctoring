@@ -6,13 +6,20 @@ app = Flask(__name__)
 app.secret_key = "exam_proctoring_secret"
 
 # ---------------- DATABASE CONNECTION ----------------
+from urllib.parse import urlparse
+
 def get_db_connection():
+    url = os.environ.get("MYSQL_PUBLIC_URL")
+    parsed = urlparse(url)
+
     return pymysql.connect(
-        host=os.environ.get("DB_HOST"),
-        user=os.environ.get("DB_USER"),
-        password=os.environ.get("DB_PASSWORD"),
-        database=os.environ.get("DB_NAME"),
-        cursorclass=pymysql.cursors.DictCursor
+        host=parsed.hostname,
+        user=parsed.username,
+        password=parsed.password,
+        database=parsed.path[1:],
+        port=parsed.port,
+        cursorclass=pymysql.cursors.DictCursor,
+        connect_timeout=10
     )
 
 # ---------------- LOGIN ----------------
@@ -138,7 +145,7 @@ def submit():
     cur.execute("""
         INSERT INTO responses
         (username, answer_q1, answer_q2, answer_q3, answer_q4, answer_q5,
-         cheating_count, result, reexam_request, reexam_status)
+        cheating_count, result, reexam_request, reexam_status)
         VALUES (%s, %s, %s, %s, %s, %s, %s, 'Pending', 'No', 'none')
     """, (
         username,
