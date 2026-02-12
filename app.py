@@ -123,6 +123,7 @@ def exam():
 
     return "You are not allowed to take the exam at this time."
 
+
 # ---------------- SUBMIT EXAM ----------------
 @app.route("/submit", methods=["POST"])
 def submit():
@@ -137,7 +138,7 @@ def submit():
     answer_q4 = request.form.get("q4")
     answer_q5 = request.form.get("q5")
 
-    cheating_count = request.form.get("cheatCount")
+    cheating_count = request.form.get("cheatCount", 0)
 
     conn = get_db_connection()
     cur = conn.cursor()
@@ -145,8 +146,8 @@ def submit():
     cur.execute("""
         INSERT INTO responses
         (username, answer_q1, answer_q2, answer_q3, answer_q4, answer_q5,
-        cheating_count, result, reexam_request, reexam_status)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, 'Pending', 'No', 'none')
+        cheating_count, score, result, reexam_request, reexam_status)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, 'Pending', 'No', 'none')
     """, (
         username,
         answer_q1,
@@ -154,7 +155,8 @@ def submit():
         answer_q3,
         answer_q4,
         answer_q5,
-        cheating_count
+        cheating_count,
+        0   # default score
     ))
 
     conn.commit()
